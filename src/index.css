@@ -1,0 +1,84 @@
+@import "./styles/fonts.css";
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-heading: 'Baloo 2', system-ui, sans-serif;
+    --font-body: 'Mukta', system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: #1F2D36;
+    background-color: #F3F6F7;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+/* Typography scale tokens from Section 3 */
+.type-display {
+  font-family: 'Baloo 2', system-ui, sans-serif;
+  font-size: 44px;
+  line-height: 52px;
+  font-weight: 800;
+}
+
+.type-display-mobile {
+  font-family: 'Baloo 2', system-ui, sans-serif;
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 800;
+}
+
+.type-title-1 {
+  font-family: 'Baloo 2', system-ui, sans-serif;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 600;
+}
+
+.type-title-2 {
+  font-family: 'Baloo 2', system-ui, sans-serif;
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 600;
+}
+
+.type-body-lg {
+  font-family: 'Mukta', system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 500;
+}
+
+.type-body-default {
+  font-family: 'Mukta', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.type-body-strong, .type-label {
+  font-family: 'Mukta', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.type-caption {
+  font-family: 'Mukta', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+/* Devanagari script legibility scaling */
+:lang(hi), :lang(mr), .lang-indic {
+  font-size: 106%;
+  line-height: 1.45;
+}

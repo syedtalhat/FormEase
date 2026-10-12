@@ -1,0 +1,46 @@
+name: Build Extension & Verify
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build-and-package:
+    name: Build & Package Extension
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Check Database Schema Drift
+        run: npm run check:schema-drift
+
+      - name: Run TypeScript Type Check / Linter
+        run: npm run lint
+
+      - name: Run Vitest Unit Test Suite
+        run: npm test
+
+      - name: Build Extension (Manifest V3)
+        run: npm run build:extension
+
+      - name: Upload Extension Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: formassist-extension
+          path: dist-extension/
+          if-no-files-found: error
+          retention-days: 14

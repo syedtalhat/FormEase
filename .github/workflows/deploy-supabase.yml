@@ -1,0 +1,67 @@
+# ==============================================================================
+# GitHub Actions Workflow: Manual Supabase Deployment
+#
+# Trigger: Manual (workflow_dispatch)
+#
+# Required GitHub Secrets (configured in GitHub Repository Settings -> Secrets -> Actions):
+# - SUPABASE_ACCESS_TOKEN: Personal access token generated from the Supabase Account Settings.
+# - SUPABASE_PROJECT_REF: The reference ID of the target Supabase project (found in Project Settings -> General).
+# - SUPABASE_DB_PASSWORD: The Postgres database password used for database migrations.
+#
+# Note: Secrets are referenced ONLY by environment variable names.
+# Never hardcode secrets in code, configuration files, or issue threads.
+# ==============================================================================
+
+name: Deploy Supabase (Database & Edge Functions)
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_db:
+        description: 'Push database migrations to target project'
+        type: boolean
+        default: true
+      deploy_functions:
+        description: 'Deploy Edge Functions (health, analyze-form, explain-field, chat)'
+        type: boolean
+        default: true
+
+jobs:
+  deploy-supabase:
+    name: Supabase CLI Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Link Supabase Project
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: |
+          supabase link --project-ref ${{ secrets.SUPABASE_PROJECT_REF }} --password "$SUPABASE_DB_PASSWORD"
+
+      - name: Push Database Migrations (Schema & RLS)
+        if: ${{ inputs.deploy_db }}
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: |
+          supabase db push --password "$SUPABASE_DB_PASSWORD"
+
+      - name: Deploy Edge Functions
+        if: ${{ inputs.deploy_functions }}
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          supabase functions deploy health --project-ref ${{ secrets.SUPABASE_PROJECT_REF }} --no-verify-jwt
+          supabase functions deploy analyze-form --project-ref ${{ secrets.SUPABASE_PROJECT_REF }} --no-verify-jwt
+          supabase functions deploy explain-field --project-ref ${{ secrets.SUPABASE_PROJECT_REF }} --no-verify-jwt
+          supabase functions deploy chat --project-ref ${{ secrets.SUPABASE_PROJECT_REF }} --no-verify-jwt
+          supabase functions deploy preferences --project-ref ${{ secrets.SUPABASE_PROJECT_REF }} --no-verify-jwt

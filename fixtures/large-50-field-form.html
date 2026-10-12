@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comprehensive 50-Field Civic Services Form (Performance Fixture)</title>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; padding: 24px; max-width: 900px; margin: 0 auto; background: #f8fafc; color: #1e293b; }
+    fieldset { border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 20px; padding: 16px; background: #ffffff; }
+    legend { font-weight: bold; padding: 0 8px; color: #0f172a; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field { display: flex; flex-direction: column; gap: 4px; }
+    label { font-size: 13px; font-weight: 500; color: #334155; }
+    input, select, textarea { padding: 8px; border: 1px solid #94a3b8; border-radius: 4px; font-size: 14px; }
+    .help { font-size: 11px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <h1>State Comprehensive Citizen Welfare Registration</h1>
+  <p>Standard performance benchmark fixture with 50 distinct form elements.</p>
+
+  <form id="welfare-form" action="https://welfare.gov.in/submit" method="POST">
+    <!-- SECTION 1: Personal Identification (10 fields) -->
+    <fieldset>
+      <legend>1. Personal Identification</legend>
+      <div class="grid">
+        <div class="field">
+          <label for="first_name">First Name *</label>
+          <input type="text" id="first_name" name="first_name" required>
+        </div>
+        <div class="field">
+          <label for="middle_name">Middle Name</label>
+          <input type="text" id="middle_name" name="middle_name">
+        </div>
+        <div class="field">
+          <label for="last_name">Last Name *</label>
+          <input type="text" id="last_name" name="last_name" required>
+        </div>
+        <div class="field">
+          <label for="gender">Gender *</label>
+          <select id="gender" name="gender" required>
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="dob">Date of Birth *</label>
+          <input type="date" id="dob" name="dob" required>
+        </div>
+        <div class="field">
+          <label for="aadhaar_last4">Aadhaar Last 4 Digits *</label>
+          <input type="text" id="aadhaar_last4" name="aadhaar_last4" maxlength="4" required>
+          <span class="help">Enter the last 4 digits of your Aadhaar card</span>
+        </div>
+        <div class="field">
+          <label for="father_name">Father's Full Name *</label>
+          <input type="text" id="father_name" name="father_name" required>
+        </div>
+        <div class="field">
+          <label for="mother_name">Mother's Full Name *</label>
+          <input type="text" id="mother_name" name="mother_name" required>
+        </div>
+        <div class="field">
+          <label for="marital_status">Marital Status</label>
+          <select id="marital_status" name="marital_status">
+            <option value="single">Single</option>
+            <option value="married">Married</option>
+            <option value="widowed">Widowed</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="blood_group">Blood Group</label>
+          <input type="text" id="blood_group" name="blood_group">
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 2: Contact & Domicile (10 fields) -->
+    <fieldset>
+      <legend>2. Contact &amp; Residential Address</legend>
+      <div class="grid">
+        <div class="field">
+          <label for="mobile_number">Primary Mobile Number *</label>
+          <input type="tel" id="mobile_number" name="mobile_number" required>
+        </div>
+        <div class="field">
+          <label for="alt_mobile">Alternative Contact Number</label>
+          <input type="tel" id="alt_mobile" name="alt_mobile">
+        </div>
+        <div class="field">
+          <label for="email_address">Email Address *</label>
+          <input type="email" id="email_address" name="email_address" required>
+        </div>
+        <div class="field">
+          <label for="state_domicile">State of Domicile *</label>
+          <select id="state_domicile" name="state_domicile" required>
+            <option value="MH">Maharashtra</option>
+            <option value="UP">Uttar Pradesh</option>
+            <option value="KA">Karnataka</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="district">District *</label>
+          <input type="text" id="district" name="district" required>
+        </div>
+        <div class="field">
+          <label for="taluka">Taluka / Sub-Division *</label>
+          <input type="text" id="taluka" name="taluka" required>
+        </div>
+        <div class="field">
+          <label for="village_city">Village or City *</label>
+          <input type="text" id="village_city" name="village_city" required>
+        </div>
+        <div class="field">
+          <label for="pincode">Postal PIN Code *</label>
+          <input type="text" id="pincode" name="pincode" maxlength="6" required>
+        </div>
+        <div class="field">
+          <label for="residence_years">Years at Present Address</label>
+          <input type="number" id="residence_years" name="residence_years" min="0" max="99">
+        </div>
+        <div class="field" style="grid-column: span 2;">
+          <label for="residential_address">Detailed Street Address *</label>
+          <textarea id="residential_address" name="residential_address" rows="2" required></textarea>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 3: Socio-Economic Profile (10 fields) -->
+    <fieldset>
+      <legend>3. Socio-Economic Profile</legend>
+      <div class="grid">
+        <div class="field">
+          <label for="social_category">Social Category *</label>
+          <select id="social_category" name="social_category" required>
+            <option value="GEN">General</option>
+            <option value="OBC">Other Backward Class</option>
+            <option value="SC">Scheduled Caste</option>
+            <option value="ST">Scheduled Tribe</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="caste_certificate_no">Caste Certificate Number</label>
+          <input type="text" id="caste_certificate_no" name="caste_certificate_no">
+        </div>
+        <div class="field">
+          <label for="annual_family_income">Annual Family Gross Income (INR) *</label>
+          <input type="number" id="annual_family_income" name="annual_family_income" required>
+          <span class="help">Must match Tehsildar issued income certificate</span>
+        </div>
+        <div class="field">
+          <label for="income_cert_date">Income Certificate Issue Date *</label>
+          <input type="date" id="income_cert_date" name="income_cert_date" required>
+        </div>
+        <div class="field">
+          <label for="issuing_authority">Issuing Revenue Authority *</label>
+          <input type="text" id="issuing_authority" name="issuing_authority" required>
+        </div>
+        <div class="field">
+          <label for="bpl_card_no">BPL / Ration Card Number</label>
+          <input type="text" id="bpl_card_no" name="bpl_card_no">
+        </div>
+        <div class="field">
+          <label for="disability_status">Person with Disability (PwD)</label>
+          <select id="disability_status" name="disability_status">
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="disability_percentage">Disability Percentage</label>
+          <input type="number" id="disability_percentage" name="disability_percentage" min="0" max="100">
+        </div>
+        <div class="field">
+          <label for="guardian_occupation">Primary Guardian Occupation *</label>
+          <input type="text" id="guardian_occupation" name="guardian_occupation" required>
+        </div>
+        <div class="field">
+          <label for="family_land_acres">Agricultural Land Owned (Acres)</label>
+          <input type="number" id="family_land_acres" name="family_land_acres" step="0.1">
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 4: Academic & Institutional Records (10 fields) -->
+    <fieldset>
+      <legend>4. Academic &amp; Enrollment Records</legend>
+      <div class="grid">
+        <div class="field">
+          <label for="institute_state">Institute State *</label>
+          <input type="text" id="institute_state" name="institute_state" required>
+        </div>
+        <div class="field">
+          <label for="institute_name">College / Institute Name *</label>
+          <input type="text" id="institute_name" name="institute_name" required>
+        </div>
+        <div class="field">
+          <label for="aishe_code">Institute AISHE / DISE Code</label>
+          <input type="text" id="aishe_code" name="aishe_code">
+        </div>
+        <div class="field">
+          <label for="current_course">Current Enrolled Course *</label>
+          <input type="text" id="current_course" name="current_course" required>
+        </div>
+        <div class="field">
+          <label for="course_year">Year of Study *</label>
+          <select id="course_year" name="course_year" required>
+            <option value="1">1st Year</option>
+            <option value="2">2nd Year</option>
+            <option value="3">3rd Year</option>
+            <option value="4">4th Year</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="admission_year">Year of Admission *</label>
+          <input type="number" id="admission_year" name="admission_year" required>
+        </div>
+        <div class="field">
+          <label for="roll_number">Student Roll / Registration No *</label>
+          <input type="text" id="roll_number" name="roll_number" required>
+        </div>
+        <div class="field">
+          <label for="last_exam_passed">Previous Qualifying Exam Passed *</label>
+          <input type="text" id="last_exam_passed" name="last_exam_passed" required>
+        </div>
+        <div class="field">
+          <label for="last_exam_percentage">Qualifying Marks / Percentage *</label>
+          <input type="number" id="last_exam_percentage" name="last_exam_percentage" step="0.01" required>
+        </div>
+        <div class="field">
+          <label for="hostel_status">Hostel Accompanied (Day Scholar / Hosteller)</label>
+          <select id="hostel_status" name="hostel_status">
+            <option value="day_scholar">Day Scholar</option>
+            <option value="hosteller">Hosteller</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 5: Banking & Direct Benefit Transfer (10 fields) -->
+    <fieldset>
+      <legend>5. Banking &amp; DBT Account Details</legend>
+      <div class="grid">
+        <div class="field">
+          <label for="bank_name">Bank Name *</label>
+          <input type="text" id="bank_name" name="bank_name" required>
+        </div>
+        <div class="field">
+          <label for="bank_branch">Branch Name *</label>
+          <input type="text" id="bank_branch" name="bank_branch" required>
+        </div>
+        <div class="field">
+          <label for="ifsc_code">Bank IFSC Code *</label>
+          <input type="text" id="ifsc_code" name="ifsc_code" maxlength="11" required>
+          <span class="help">11-character code printed on passbook</span>
+        </div>
+        <div class="field">
+          <label for="account_number">Bank Savings Account Number *</label>
+          <input type="text" id="account_number" name="account_number" required>
+        </div>
+        <div class="field">
+          <label for="confirm_account_number">Confirm Account Number *</label>
+          <input type="text" id="confirm_account_number" name="confirm_account_number" required>
+        </div>
+        <div class="field">
+          <label for="account_holder_name">Account Holder Name (as in bank) *</label>
+          <input type="text" id="account_holder_name" name="account_holder_name" required>
+        </div>
+        <div class="field">
+          <label for="aadhaar_seeded">Is Account Aadhaar Seeded for DBT?</label>
+          <select id="aadhaar_seeded" name="aadhaar_seeded">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="pan_number">Applicant PAN Card Number</label>
+          <input type="text" id="pan_number" name="pan_number" maxlength="10">
+        </div>
+        <div class="field" style="grid-column: span 2;">
+          <label for="additional_remarks">Applicant Special Notes / Remarks</label>
+          <textarea id="additional_remarks" name="additional_remarks" rows="2"></textarea>
+        </div>
+        <div class="field" style="grid-column: span 2;">
+          <label>
+            <input type="checkbox" id="declaration_agree" name="declaration_agree" required>
+            I hereby declare that the particulars furnished above are true and complete.
+          </label>
+        </div>
+      </div>
+    </fieldset>
+
+    <button type="submit" style="background: #0f766e; color: white; padding: 12px 24px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+      Submit Comprehensive Application
+    </button>
+  </form>
+</body>
+</html>

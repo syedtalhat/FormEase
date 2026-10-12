@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>State Post-Matric Scholarship Portal — Application Form 2026</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #eef2f5; color: #1e293b; padding: 24px; }
+    .portal-container { max-width: 820px; margin: 0 auto; background: #ffffff; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .header { background: #1e3a8a; color: #ffffff; padding: 20px 24px; border-top-left-radius: 8px; border-top-right-radius: 8px; }
+    .header h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .header p { font-size: 13px; color: #93c5fd; }
+    .form-body { padding: 24px; }
+    .section-title { font-size: 15px; font-weight: 600; color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin: 20px 0 16px 0; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 12px; }
+    .form-group { display: flex; flex-direction: column; }
+    .form-group.full { grid-column: span 2; }
+    label { font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 5px; }
+    label .req { color: #dc2626; margin-left: 2px; }
+    input, select, textarea { padding: 10px 12px; border: 1px solid #94a3b8; border-radius: 6px; font-size: 14px; color: #0f172a; outline: none; background: #fff; }
+    input:focus, select:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.2); }
+    .field-hint { font-size: 12px; color: #64748b; margin-top: 4px; }
+    .actions { margin-top: 24px; padding-top: 16px; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 12px; }
+    .btn { padding: 10px 20px; font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer; border: none; }
+    .btn-secondary { background: #f1f5f9; color: #475569; }
+    .btn-primary { background: #1e3a8a; color: #ffffff; }
+  </style>
+</head>
+<body>
+  <div class="portal-container">
+    <div class="header">
+      <h1>Department of Social Welfare — Post-Matric Scholarship Scheme</h1>
+      <p>Official Academic Year 2026-2027 Registration Portal</p>
+    </div>
+
+    <form id="scholarship-form" action="https://scholarships.gov.in/submit-app" method="POST" class="form-body">
+      <div class="section-title">1. Applicant Identification & Domicile</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="applicant_name">Full Legal Name (as on Certificate)<span class="req">*</span></label>
+          <input type="text" id="applicant_name" name="applicant_name" placeholder="e.g. Ramesh Kumar Sharma" required aria-describedby="name-hint" />
+          <span id="name-hint" class="field-hint">Must match matriculation mark sheet spelling exactly.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="domicile_certificate_no">Domicile Certificate Registration No.<span class="req">*</span></label>
+          <input type="text" id="domicile_certificate_no" name="domicile_certificate_no" placeholder="e.g. DOM/2026/89402" required />
+        </div>
+
+        <div class="form-group">
+          <label for="social_category">Caste / Social Category<span class="req">*</span></label>
+          <select id="social_category" name="social_category" required>
+            <option value="">Select Category...</option>
+            <option value="sc">Scheduled Caste (SC)</option>
+            <option value="st">Scheduled Tribe (ST)</option>
+            <option value="obc">Other Backward Class (OBC)</option>
+            <option value="general">General / EWS</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="annual_family_income">Annual Family Income (INR)<span class="req">*</span></label>
+          <input type="number" id="annual_family_income" name="annual_family_income" placeholder="e.g. 180000" required aria-describedby="income-hint" />
+          <span id="income-hint" class="field-hint">Total combined gross earnings before tax. Max ₹2,50,000 for eligibility.</span>
+        </div>
+      </div>
+
+      <div class="section-title">2. Banking & Direct Benefit Transfer (DBT)</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="bank_account_no">Savings Bank Account Number<span class="req">*</span></label>
+          <input type="text" id="bank_account_no" name="bank_account_no" placeholder="e.g. 109283746501" required />
+        </div>
+
+        <div class="form-group">
+          <label for="bank_ifsc_code">Bank Branch IFSC Code<span class="req">*</span></label>
+          <input type="text" id="bank_ifsc_code" name="bank_ifsc_code" placeholder="e.g. SBIN0004921" required aria-describedby="ifsc-hint" />
+          <span id="ifsc-hint" class="field-hint">11-character code printed on cheque or passbook first page.</span>
+        </div>
+
+        <div class="form-group full">
+          <label for="aadhaar_number">Aadhaar Card Reference Number<span class="req">*</span></label>
+          <input type="text" id="aadhaar_number" name="aadhaar_number" placeholder="XXXX-XXXX-XXXX" required />
+        </div>
+      </div>
+
+      <div class="section-title">3. Undertaking & Declaration</div>
+      <div class="form-group full" style="flex-direction: row; align-items: flex-start; gap: 8px;">
+        <input type="checkbox" id="declaration_truth" name="declaration_truth" required style="margin-top: 4px;" />
+        <label for="declaration_truth" style="font-weight: 400; font-size: 13px;">
+          I hereby declare that all particulars stated above are true and substantiated by revenue certificates. I understand that misrepresentation will lead to revocation and recovery proceedings.
+        </label>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn btn-secondary">Save Draft</button>
+        <button type="submit" class="btn btn-primary">Submit Application</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

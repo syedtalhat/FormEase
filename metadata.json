@@ -1,0 +1,6 @@
+{
+  "name": "FormAssist",
+  "description": "Context-aware browser extension and assistive overlay for web-form accessibility with plain-language explanations, risk classification, and context-aware chat.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

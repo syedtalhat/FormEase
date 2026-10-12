@@ -1,0 +1,11 @@
+RESERVE BANK OF INDIA - MASTER DIRECTION - KNOW YOUR CUSTOMER (KYC) DIRECTION, 2016
+(Updated February 2024 - Section 38: Periodic Updation of KYC)
+
+1. FREQUENCY OF PERIODIC KYC
+Regulated entities (REs) including public and private commercial banks shall undertake periodic updation of KYC once every two years for high-risk customers, once every eight years for medium-risk customers, and once every ten years for low-risk customers, from the date of opening of the account or previous verification.
+
+2. OFFICIALLY VALID DOCUMENTS (OVD)
+For individuals, Officially Valid Document means the passport, driving licence, proof of possession of Aadhaar number, Voter Identity Card issued by Election Commission of India, job card issued by NREGA duly signed by an officer of the State Government, and letter issued by the National Population Register.
+
+3. STRICT PROHIBITION AGAINST ASKING CREDENTIALS
+Banks and financial institutions are strictly prohibited from asking for or collecting ATM debit card PINs, CVV codes, net banking passwords, or one-time passwords (OTPs) under the guise of customer KYC updation. Any portal or request asking for password disclosure is fraudulent and must be flagged as high risk.
