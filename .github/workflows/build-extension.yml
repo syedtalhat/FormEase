@@ -48,4 +48,3 @@ jobs:
           path: dist-extension/
           if-no-files-found: error
           retention-days: 14
-```
