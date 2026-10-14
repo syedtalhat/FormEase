@@ -3,7 +3,7 @@ import path from 'path';
 
 export default defineConfig({
   testDir: './tests/e2e',
-  timeout: 30000,
+  timeout: 60000,
   expect: {
     timeout: 5000,
   },

@@ -8,7 +8,7 @@ import path from 'path';
 import fs from 'fs';
 import os from 'os';
 
-const extensionPath = path.resolve(__dirname, '../../dist-extension');
+const extensionPath = path.resolve(process.cwd(), 'dist-extension');
 
 test.describe('FormAssist Extension End-to-End Test Suite', () => {
   let context: BrowserContext;
