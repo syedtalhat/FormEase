@@ -1,3 +1,4 @@
+```yaml
 name: Build Extension & Verify
 
 on:
@@ -34,8 +35,12 @@ jobs:
       - name: Run Vitest Unit Test Suite
         run: npm test
 
-      - name: Build Extension (Manifest V3)
+      - name: Build extension
         run: npm run build:extension
+        env:
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+          VITE_API_MODE: ${{ vars.VITE_API_MODE }}
 
       - name: Upload Extension Artifact
         uses: actions/upload-artifact@v4
@@ -44,3 +49,4 @@ jobs:
           path: dist-extension/
           if-no-files-found: error
           retention-days: 14
+```
