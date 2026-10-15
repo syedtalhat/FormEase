@@ -7,23 +7,25 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { OnboardingRoot } from '../../src/surfaces/onboarding/OnboardingRoot';
 import { SupportedLanguage } from '../../src/core/i18n';
+import { setAuthSession, setSavedLanguage } from '../../src/core/storage';
 import '../../src/index.css';
 
 const OnboardingApp: React.FC = () => {
-  const handleComplete = (session: { signedIn: boolean; language: SupportedLanguage }) => {
+  const handleComplete = async (session: { signedIn: boolean; language: SupportedLanguage }) => {
+    await setSavedLanguage(session.language);
+    await setAuthSession({ isSignedIn: session.signedIn });
     if (typeof chrome !== 'undefined' && chrome.storage?.local) {
       chrome.storage.local.set({
-        formassist_auth: session.signedIn,
-        formassist_lang: session.language,
-      });
+        formassist_onboarding_completed: true,
+      }, () => window.close());
+      return;
     }
-    // Close tab or redirect to complete screen
-    alert(`Setup complete! Language saved as ${session.language.toUpperCase()}. You can now use FormAssist on any supported form.`);
+    localStorage.setItem('formassist_onboarding_completed', 'true');
     window.close();
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto py-6">
+    <div className="min-h-screen w-full">
       <OnboardingRoot onComplete={handleComplete} />
     </div>
   );

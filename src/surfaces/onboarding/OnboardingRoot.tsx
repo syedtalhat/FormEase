@@ -13,7 +13,7 @@ interface OnboardingRootProps {
   onComplete: (userSession: { signedIn: boolean; language: SupportedLanguage }) => void;
 }
 
-export const OnboardingRoot: React.FC<OnboardingRootProps> = ({ onComplete }) => {
+export const LegacyOnboardingRoot: React.FC<OnboardingRootProps> = ({ onComplete }) => {
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguage>('en');
 
@@ -330,3 +330,5 @@ export const OnboardingRoot: React.FC<OnboardingRootProps> = ({ onComplete }) =>
     </div>
   );
 };
+
+export { OnboardingExperience as OnboardingRoot } from './OnboardingExperience';

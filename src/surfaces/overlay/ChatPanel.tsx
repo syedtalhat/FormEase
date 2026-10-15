@@ -4,9 +4,11 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import { SupportedLanguage } from '../../core/i18n';
+import { SupportedLanguage, t } from '../../core/i18n';
 import { checkChatInput } from '../../core/redact/redactor';
 import { Icon } from '../../ui/Icon';
+import { SourceChip, SourceLabelType } from '../../ui/SourceChip';
+import { tts } from '../../core/tts';
 
 export interface ChatMessageItem {
   id: string;
@@ -14,6 +16,8 @@ export interface ChatMessageItem {
   content: string;
   focused_field_label?: string;
   timestamp: number;
+  source_label?: SourceLabelType;
+  source_url?: string;
 }
 
 interface ChatPanelProps {
@@ -23,7 +27,7 @@ interface ChatPanelProps {
   messages: ChatMessageItem[];
   isSignedIn?: boolean;
   isLoading?: boolean;
-  onSendMessage: (msg: string) => void;
+  onSendMessage: (msg: string) => void | Promise<void>;
   onClose: () => void;
   onLanguageChange?: (lang: SupportedLanguage) => void;
 }
@@ -41,239 +45,295 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
 }) => {
   const [input, setInput] = useState('');
   const [warning, setWarning] = useState<string | null>(null);
+  const [sendError, setSendError] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [lastQuestion, setLastQuestion] = useState('');
+  const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const originFocusRef = useRef<HTMLElement | null>(null);
+
+  if (!originFocusRef.current && typeof document !== 'undefined') {
+    originFocusRef.current = document.activeElement as HTMLElement;
+  }
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView?.({ behavior: 'smooth' });
   }, [messages, isLoading]);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  const closePanel = () => {
+    onClose();
+    window.setTimeout(() => originFocusRef.current?.focus({ preventScroll: true }), 0);
+  };
 
   // Escape key closes panel
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.preventDefault();
-        onClose();
+        closePanel();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
 
-  const handleSubmit = (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    if (!input.trim() || isLoading) return;
+  const sendQuestion = async (text: string) => {
+    if (!text.trim() || isLoading || isSending) return;
+    setSendError(false);
+    setLastQuestion(text);
+    setIsSending(true);
+    try {
+      await onSendMessage(text);
+    } catch {
+      setSendError(true);
+    } finally {
+      setIsSending(false);
+    }
+  };
 
-    // Check chat guard (Section 8.2)
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!input.trim() || isLoading || isSending) return;
+
     const guard = checkChatInput(input);
     if (guard.blocked) {
-      setWarning(guard.warning || "Please don't type private numbers here.");
+      setWarning(t('chat_sensitive_warning', language));
       return;
     }
 
     setWarning(null);
     const text = input.trim();
     setInput('');
-    onSendMessage(text);
+    await sendQuestion(text);
   };
 
   const handleQuickQuestion = (q: string) => {
-    if (isLoading) return;
-    onSendMessage(q);
+    if (isLoading || isSending) return;
+    void sendQuestion(q);
+  };
+
+  const handleListen = (message: ChatMessageItem) => {
+    if (speakingMessageId === message.id) {
+      tts.stop();
+      setSpeakingMessageId(null);
+      return;
+    }
+    const started = tts.speak(message.content, language, 1, () => setSpeakingMessageId(null));
+    setSpeakingMessageId(started ? message.id : null);
+  };
+
+  const locale = language === 'hi' ? 'hi-IN' : language === 'mr' ? 'mr-IN' : 'en-IN';
+  const firstMessageDate = messages[0] ? new Date(messages[0].timestamp) : new Date();
+  const now = new Date();
+  const isToday = firstMessageDate.toDateString() === now.toDateString();
+  const dateLabel = isToday
+    ? t('chat_today', language)
+    : new Intl.DateTimeFormat(locale, { dateStyle: 'medium' }).format(firstMessageDate);
+  const followUps = [
+    t('chat_followup_meaning', language),
+    t('why_asking', language),
+    t('chat_followup_dont_know', language),
+  ];
+  const formatTime = (timestamp: number) =>
+    new Intl.DateTimeFormat(locale, { hour: 'numeric', minute: '2-digit' }).format(timestamp);
+
+  const renderMessage = (message: ChatMessageItem) => {
+    const isUser = message.role === 'user';
+    return (
+      <article key={message.id} className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}>
+        {isUser && message.focused_field_label && (
+          <span className="mb-1 max-w-[88%] truncate px-2 text-xs text-text-secondary">
+            {t('chat_message_about', language, { field: message.focused_field_label })}
+          </span>
+        )}
+        <div
+          className={`max-w-[88%] rounded-2xl px-3.5 py-3 text-sm leading-6 ${
+            isUser
+              ? 'rounded-br-sm bg-primary-container text-white'
+              : 'rounded-bl-sm border border-border-subtle bg-surface-card text-text-primary shadow-xs'
+          }`}
+        >
+          {message.content}
+          {isUser && (
+            <time className="mt-1 block text-right text-xs text-primary-tint" dateTime={new Date(message.timestamp).toISOString()}>
+              {formatTime(message.timestamp)}
+            </time>
+          )}
+        </div>
+        {!isUser && (
+          <div className="mt-1.5 flex min-h-11 w-full items-center justify-between gap-3">
+            <SourceChip
+              type={message.source_label || 'ai'}
+              url={message.source_url}
+              language={language}
+              showCaption
+            />
+            <button
+              type="button"
+              onClick={() => handleListen(message)}
+              aria-label={t(speakingMessageId === message.id ? 'stop' : 'listen', language)}
+              title={t(speakingMessageId === message.id ? 'stop' : 'listen', language)}
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-primary hover:bg-primary-tint focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primary-container"
+            >
+              <Icon name={speakingMessageId === message.id ? 'stop' : 'volume_up'} className="h-5 w-5" />
+            </button>
+          </div>
+        )}
+      </article>
+    );
   };
 
   return (
     <div
       role="complementary"
-      aria-label="FormAssist Chat Panel"
-      className="fixed top-0 right-0 h-full w-[400px] max-w-[92vw] bg-surface-page border-l border-border-subtle z-[2147483647] flex flex-col justify-between font-body text-text-primary shadow-panel animate-slideLeft"
-      style={{
-        borderRadius: '20px 0 0 20px',
-      }}
+      aria-label={t('chat_panel_label', language)}
+      className="fixed right-0 top-0 z-[2147483647] flex h-dvh min-h-screen w-full flex-col overflow-hidden border-l border-border-subtle bg-surface-page font-body text-text-primary shadow-panel animate-slideLeft min-[1024px]:w-[400px] max-[1023px]:rounded-none min-[1024px]:rounded-l-2xl"
     >
-      {/* Header */}
-      <div className="p-4 bg-surface-card border-b border-border-subtle rounded-tl-[20px] space-y-2.5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-primary-container text-white flex items-center justify-center font-display font-bold text-sm shadow-sm">
-              FA
-            </div>
-            <div>
-              <h2 className="font-display font-bold text-base text-primary-container leading-tight">
-                FormAssist Companion
-              </h2>
-              <p className="text-[11px] text-text-secondary truncate max-w-[220px]">
-                {formTitle}
-              </p>
+      <header className="space-y-3 border-b border-border-subtle bg-surface-card px-4 py-3">
+        <div className="flex min-h-12 items-center justify-between gap-2">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-container font-display text-xl font-bold text-white">
+              F<span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-marigold" />
+            </span>
+            <div className="min-w-0">
+              <h1 className="font-display text-lg font-bold leading-6 text-text-primary">{t('chat_title', language)}</h1>
+              <p className="truncate text-sm text-text-secondary">{t('chat_subtitle', language)}</p>
             </div>
           </div>
-
-          <div className="flex items-center gap-1">
+          <div className="flex shrink-0 items-center gap-1">
             {onLanguageChange && (
-              <div className="flex bg-surface-muted p-0.5 rounded-lg text-xs font-semibold mr-1">
-                {(['en', 'hi', 'mr'] as const).map((l) => (
-                  <button
-                    key={l}
-                    type="button"
-                    onClick={() => onLanguageChange(l)}
-                    className={`px-1.5 py-0.5 rounded ${
-                      language === l
-                        ? 'bg-white text-primary-container font-bold shadow-xs'
-                        : 'text-text-secondary'
-                    }`}
-                  >
-                    {l.toUpperCase()}
-                  </button>
-                ))}
-              </div>
+              <select
+                aria-label={t('popup_language', language)}
+                value={language}
+                onChange={(event) => onLanguageChange(event.target.value as SupportedLanguage)}
+                className="h-11 max-w-[118px] rounded-full bg-surface-muted px-3 text-sm font-semibold text-text-primary focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primary-container"
+              >
+                <option value="en">English</option>
+                <option value="hi">हिन्दी</option>
+                <option value="mr">मराठी</option>
+              </select>
             )}
-
             <button
               type="button"
-              onClick={onClose}
-              aria-label="Close chat panel"
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-text-secondary hover:bg-surface-muted transition-colors"
+              onClick={closePanel}
+              aria-label={t('chat_close', language)}
+              title={t('chat_close', language)}
+              className="flex h-11 w-11 items-center justify-center rounded-lg text-text-secondary hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primary-container"
             >
-              <Icon name="close" className="w-4 h-4" />
+              <Icon name="close" className="h-5 w-5" />
             </button>
           </div>
         </div>
 
-        {/* FR-CHAT.1: Persistent Asking about chip */}
-        <div
-          className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
-            focusedFieldLabel
-              ? 'bg-primary-tint text-primary-container border border-primary-container/30'
-              : 'bg-surface-muted text-text-secondary border border-border-subtle'
-          }`}
-        >
-          <Icon name="auto_awesome" className="w-3.5 h-3.5 shrink-0" />
-          <span className="truncate">
-            Asking about:{' '}
-            <span className="underline font-bold">
-              {focusedFieldLabel || 'General form questions'}
-            </span>
+        <div className="flex min-h-[68px] items-center gap-3 rounded-xl bg-primary-tint px-3.5 py-2.5 text-primary">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-surface-card">
+            <Icon name="auto_awesome" className="h-5 w-5" />
           </span>
+          <div className="min-w-0">
+            <p className="text-xs font-semibold uppercase">{t('chat_asking_about_label', language)}</p>
+            <p className="truncate text-sm font-bold">{focusedFieldLabel || t('chat_this_form', language)}</p>
+          </div>
         </div>
 
-        {/* FR-ACC.3: Signed out notice */}
         {!isSignedIn && (
-          <div className="text-[11px] text-text-secondary bg-surface-page px-2.5 py-1 rounded-lg border border-border-subtle flex items-center justify-between">
-            <span>Chat is not saved. Sign in to keep it.</span>
-            <Icon name="lock" className="w-3 h-3 text-text-disabled" />
+          <div className="flex min-h-11 items-center justify-between gap-2 rounded-lg border border-border-subtle bg-surface-page px-3 text-sm text-text-secondary">
+            <span>{t('chat_unsigned_notice', language)}</span>
+            <Icon name="lock" className="h-4 w-4 shrink-0 text-text-disabled" />
           </div>
         )}
-      </div>
+      </header>
 
-      {/* Messages Scroll Body */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3 text-sm">
-        {messages.length === 0 ? (
-          <div className="text-center py-6 px-3 space-y-4">
-            <div className="w-12 h-12 mx-auto rounded-2xl bg-primary-tint text-primary-container flex items-center justify-center">
-              <Icon name="chat" className="w-6 h-6" />
+      <div aria-live="polite" aria-relevant="additions text" className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
+        <div className="flex min-h-full flex-col gap-4">
+          <div className="flex items-center gap-3 text-xs font-medium text-text-secondary">
+            <span className="h-px flex-1 bg-border-subtle" />
+            <time dateTime={firstMessageDate.toISOString()}>{dateLabel}</time>
+            <span className="h-px flex-1 bg-border-subtle" />
+          </div>
+          <div className="space-y-3">
+            {messages.map(renderMessage)}
+          </div>
+          {(isLoading || isSending) && (
+            <div className="flex w-fit items-center gap-2 rounded-xl border border-border-subtle bg-surface-card px-3.5 py-3 text-sm text-text-secondary" role="status">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-primary-container" />
+              <span>{t('chat_typing', language)}</span>
             </div>
-            <div>
-              <h3 className="font-display font-bold text-base text-text-primary">
-                How can I help you fill this?
-              </h3>
-              <p className="text-xs text-text-secondary leading-relaxed mt-1 max-w-xs mx-auto">
-                Ask about required certificates, where to find numbers, or what confusing questions mean.
-              </p>
+          )}
+          {sendError && (
+            <div className="flex items-center justify-between gap-3 rounded-xl border border-danger/20 bg-danger-bg p-3 text-sm text-danger" role="alert">
+              <span>{t('chat_send_error', language)}</span>
+              <button
+                type="button"
+                onClick={() => void sendQuestion(lastQuestion)}
+                className="min-h-11 shrink-0 rounded-lg px-3 font-semibold underline focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-danger"
+              >
+                {t('retry', language)}
+              </button>
             </div>
-
-            {/* Quick suggestion chips */}
-            <div className="space-y-1.5 text-left pt-2">
-              <span className="text-[11px] font-semibold text-text-secondary uppercase tracking-wider block">
-                Suggested questions:
-              </span>
-              {[
-                'Where do I find this certificate or document?',
-                "What if I don't have this exact number right now?",
-                'Is this question mandatory for fee exemption?',
-              ].map((q, idx) => (
+          )}
+          <section className="mt-auto space-y-2 pt-2">
+            <h2 className="text-xs font-semibold uppercase text-text-secondary">{t('chat_helpful_followups', language)}</h2>
+            <div className="flex flex-wrap gap-2">
+              {followUps.map((question) => (
                 <button
-                  key={idx}
+                  key={question}
                   type="button"
-                  onClick={() => handleQuickQuestion(q)}
-                  className="w-full text-left p-2.5 rounded-xl border border-border-subtle bg-surface-card hover:bg-primary-tint/40 text-xs text-text-primary transition-colors flex items-center justify-between"
+                  onClick={() => handleQuickQuestion(question)}
+                  disabled={isLoading || isSending}
+                  className="min-h-11 rounded-full border border-border-subtle bg-surface-muted px-3.5 text-sm text-text-primary hover:bg-primary-tint disabled:opacity-50 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primary-container"
                 >
-                  <span className="line-clamp-2">{q}</span>
-                  <Icon name="arrow_forward" className="w-3.5 h-3.5 text-primary-container shrink-0 ml-1" />
+                  {question}
                 </button>
               ))}
             </div>
-          </div>
-        ) : (
-          messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`flex flex-col ${
-                msg.role === 'user' ? 'items-end' : 'items-start'
-              }`}
-            >
-              {msg.focused_field_label && msg.role === 'user' && (
-                <span className="text-[10px] text-text-secondary mb-0.5 px-1 font-medium">
-                  re: {msg.focused_field_label}
-                </span>
-              )}
-
-              <div
-                className={`max-w-[88%] rounded-2xl p-3 text-[13px] leading-relaxed ${
-                  msg.role === 'user'
-                    ? 'bg-primary-container text-white rounded-tr-xs'
-                    : 'bg-surface-card border border-border-subtle text-text-primary rounded-tl-xs shadow-xs'
-                }`}
-              >
-                {msg.content}
-              </div>
-            </div>
-          ))
-        )}
-
-        {isLoading && (
-          <div className="flex items-center gap-2 p-3 bg-surface-card border border-border-subtle rounded-2xl w-fit text-xs text-text-secondary">
-            <span className="w-2 h-2 rounded-full bg-primary-container animate-ping" />
-            <span>Finding official guidance…</span>
-          </div>
-        )}
+          </section>
+        </div>
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Form */}
       <form
         onSubmit={handleSubmit}
-        className="p-3 bg-surface-card border-t border-border-subtle rounded-bl-[20px] space-y-1.5"
+        className="space-y-2 border-t border-border-subtle bg-surface-card px-4 pb-3 pt-3"
       >
         {warning && (
-          <div className="text-xs text-danger font-semibold bg-danger-bg p-2 rounded-lg flex items-center gap-1.5">
-            <Icon name="warning" className="w-3.5 h-3.5 shrink-0" />
+          <div className="flex items-center gap-2 rounded-lg bg-danger-bg p-2 text-sm font-semibold text-danger" role="alert">
+            <Icon name="warning" className="h-4 w-4 shrink-0" />
             <span>{warning}</span>
           </div>
         )}
 
-        <div className="flex items-center gap-2 bg-surface-page rounded-xl p-1.5 border border-border-strong focus-within:ring-2 focus-within:ring-primary-container">
+        <div className="flex min-h-[56px] items-center gap-2 rounded-2xl border border-border-strong bg-surface-page p-1.5 focus-within:ring-[3px] focus-within:ring-primary-container">
           <input
+            ref={inputRef}
             type="text"
             value={input}
             onChange={(e) => {
               setInput(e.target.value);
               if (warning) setWarning(null);
             }}
-            placeholder={
-              focusedFieldLabel
-                ? `Ask a question about ${focusedFieldLabel}…`
-                : 'Ask a question…'
-            }
-            className="flex-1 bg-transparent px-2.5 py-1.5 text-sm text-text-primary placeholder:text-text-disabled outline-none font-body"
+            aria-label={t('chat_input_label', language)}
+            placeholder={t('chat_input_placeholder', language)}
+            className="min-w-0 flex-1 bg-transparent px-3 text-base text-text-primary placeholder:text-text-secondary outline-none font-body"
           />
           <button
             type="submit"
-            disabled={!input.trim() || isLoading}
-            aria-label="Send message"
-            className="w-10 h-10 rounded-lg bg-primary-container text-white flex items-center justify-center hover:bg-primary-pressed disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+            disabled={!input.trim() || isLoading || isSending}
+            aria-label={t('chat_send', language)}
+            title={t('chat_send', language)}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary-container text-white hover:bg-primary-pressed disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primary-container focus-visible:ring-offset-2"
           >
-            <Icon name="send" className="w-4 h-4" />
+            <Icon name="send" className="h-5 w-5" />
           </button>
         </div>
+        <p className="flex items-start gap-2 px-1 text-xs leading-4 text-text-secondary">
+          <Icon name="lock" className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+          <span>{t('chat_privacy_note', language)}</span>
+        </p>
       </form>
     </div>
   );

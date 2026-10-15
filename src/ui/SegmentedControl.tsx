@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { Icon } from './Icon';
 
 export interface SegmentOption<T extends string> {
   id: T;
@@ -48,7 +49,7 @@ export function SegmentedControl<T extends string>({
             disabled={disabled || opt.locked}
             onClick={() => !opt.locked && onChange(opt.id)}
             className={`flex-1 flex items-center justify-center gap-1.5 font-body font-semibold rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-primary-container ${
-              size === 'sm' ? 'py-1 px-2 text-xs min-h-[36px]' : 'py-2 px-3 text-sm min-h-[44px]'
+              size === 'sm' ? 'py-1 px-2 text-xs min-h-[44px]' : 'py-2 px-3 text-sm min-h-[44px]'
             } ${
               isSelected
                 ? 'bg-surface-card text-primary-container shadow-xs font-bold'
@@ -56,6 +57,7 @@ export function SegmentedControl<T extends string>({
             } ${opt.locked ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}`}
           >
             <span>{opt.label}</span>
+            {opt.locked && <Icon name="lock" className="h-3 w-3" />}
             {isLoading && (
               <span className="w-1.5 h-1.5 rounded-full bg-primary-container animate-ping inline-block" />
             )}

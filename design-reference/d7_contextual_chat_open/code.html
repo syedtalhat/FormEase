@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&amp;family=Mukta:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary-fixed-variant": "#633f00", "danger-bg": "#FDECEA", "on-secondary-container": "#586671", "text-secondary": "#4A5B66", "on-surface": "#181c1d", "accent-wash": "rgba(242, 169, 59, 0.30)", "tertiary-container": "#724900", "on-tertiary-fixed": "#2a1800", "on-secondary-fixed": "#0f1d26", "error": "#ba1a1a", "surface-container-lowest": "#ffffff", "inverse-on-surface": "#eef1f2", "border-strong": "#6B7B85", "source-page": "#2A5DA8", "surface-container-high": "#e5e9ea", "primary-tint": "#E3F0F1", "surface": "#f7fafb", "outline-variant": "#bfc8ca", "surface-variant": "#e0e3e4", "on-error-container": "#93000a", "tertiary-fixed": "#ffddb5", "surface-bright": "#f7fafb", "tertiary": "#533400", "surface-muted": "#ECEFF1", "on-primary": "#ffffff", "on-primary-fixed-variant": "#004f58", "surface-dim": "#d7dadb", "text-on-primary": "#FFFFFF", "tag-unusual": "#8F4200", "on-tertiary": "#ffffff", "secondary-container": "#d5e5f1", "border-subtle": "#DDE4E8", "primary-fixed-dim": "#91d1dc", "tag-required": "#0E5A64", "on-primary-container": "#8fcfdb", "surface-container": "#ebeeef", "on-background": "#181c1d", "inverse-primary": "#91d1dc", "source-ai": "#5E479B", "outline": "#6f797a", "on-surface-variant": "#3f484a", "primary-pressed": "#0A4249", "primary-container": "#0e5a64", "source-official": "#17724A", "surface-container-highest": "#e0e3e4", "source-ai-bg": "#EFEBFA", "primary": "#004149", "on-tertiary-container": "#ffb74f", "secondary-fixed-dim": "#b9c9d4", "source-page-bg": "#E6EEFA", "surface-card": "#FFFFFF", "text-disabled": "#8A98A1", "source-official-bg": "#E4F4EC", "secondary-fixed": "#d5e5f1", "on-secondary-fixed-variant": "#3a4952", "background": "#f7fafb", "tag-unusual-bg": "#FFEBD5", "tag-optional": "#4A5B66", "error-container": "#ffdad6", "secondary": "#52606a", "on-secondary": "#ffffff", "on-error": "#ffffff", "surface-tint": "#226771", "danger": "#B3261E", "surface-page": "#F3F6F7", "tertiary-fixed-dim": "#ffb956", "inverse-surface": "#2d3132", "primary-fixed": "#adedf9", "on-primary-fixed": "#001f24", "text-primary": "#1F2D36", "surface-container-low": "#f1f4f5" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "space-3xl": "2rem", "gutter-compact": "0.75rem", "margin": "1.5rem", "space-2xl": "1.5rem", "margin-mobile": "1rem", "space-sm": "0.5rem", "gutter": "1rem", "space-xl": "1.25rem", "space-md": "0.75rem", "space-lg": "1rem" }, "fontFamily": { "title-2": [ "\"Baloo 2\"" ], "body-lg": [ "Mukta" ], "body-default": [ "Mukta" ], "body-strong": [ "Mukta" ], "label-default": [ "Mukta" ], "display-mobile": [ "\"Baloo 2\"" ], "caption": [ "Mukta" ], "title-1": [ "\"Baloo 2\"" ], "display": [ "\"Baloo 2\"" ] }, "fontSize": { "title-2": [ "22px", { "lineHeight": "30px", "fontWeight": "600" } ], "body-lg": [ "18px", { "lineHeight": "28px", "fontWeight": "500" } ], "body-default": [ "16px", { "lineHeight": "24px", "fontWeight": "400" } ], "body-strong": [ "16px", { "lineHeight": "24px", "fontWeight": "600" } ], "label-default": [ "16px", { "lineHeight": "24px", "fontWeight": "600" } ], "display-mobile": [ "32px", { "lineHeight": "40px", "fontWeight": "800" } ], "caption": [ "14px", { "lineHeight": "20px", "fontWeight": "500" } ], "title-1": [ "28px", { "lineHeight": "36px", "fontWeight": "600" } ], "display": [ "44px", { "lineHeight": "52px", "fontWeight": "800" } ] } } } };</script></head><body class="bg-surface font-body-default text-body-default text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 h-14 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 w-full px-gutter flex items-center justify-between"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm px-space-md py-space-xs rounded-xl bg-primary-tint"><span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span><span class="font-label-default text-caption text-primary tracking-wide uppercase">Extension Active</span></div><span class="font-title-2 text-title-2 text-text-primary tracking-tight">FormAssist</span><span class="font-caption text-caption text-text-secondary hidden sm:inline">Sandbox Environment (1440px Native)</span></div><nav class="flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-body-strong rounded-xl"><a class="px-space-md py-space-xs text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-xl transition-colors font-label-default text-label-default" data-path="group-h-host-portal" href="#">Group H Portal</a><a class="px-space-md py-space-xs text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-xl transition-colors font-label-default text-label-default" data-path="group-d-verification-portal" href="#">Group D Verification</a><a class="px-space-md py-space-xs text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-xl transition-colors font-label-default text-label-default" data-path="extension-simulation-lab" href="#">Simulation Lab</a></nav><div class="flex items-center gap-space-md"><div class="hidden md:flex items-center gap-space-xs bg-surface-muted px-space-md py-space-xs rounded-full"><span class="font-caption text-caption text-text-secondary">Target Viewport:</span><span class="font-body-strong text-caption text-text-primary">1440 × 900</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-14 bg-surface-page min-h-screen"><div class="flex flex-col w-full relative">
+<div class="w-full flex min-h-[calc(100vh-56px)] bg-surface-page relative overflow-x-hidden">
+<!-- HOST PORTAL BACKDROP (Legitimate Government Scholarship Application Page) -->
+<div class="flex-1 w-full max-w-[calc(100%-400px)] min-w-0 px-8 py-8 transition-all duration-300">
+<!-- Host Government Portal Banner -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-6 shadow-sm mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-source-page text-[32px]">account_balance</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-source-official-bg text-source-official font-caption text-caption uppercase tracking-wider">National Portal</span>
+<span class="font-caption text-caption text-text-secondary">Ref ID: NSP-2025-8841B</span>
+</div>
+<h1 class="font-title-1 text-title-1 text-text-primary tracking-tight">Post-Matric Merit Scholarship Scheme 2025-26</h1>
+<p class="font-caption text-caption text-text-secondary">Ministry of Social Justice &amp; Empowerment • Department of Higher Education</p>
+</div>
+</div>
+<div class="flex items-center gap-3 self-end md:self-auto">
+<div class="px-3 py-1.5 rounded-lg bg-surface-container-low text-text-secondary font-caption text-caption flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-source-official">verified_user</span>
+<span>Identity e-KYC Verified</span>
+</div>
+</div>
+</div>
+<!-- Application Progress Tracker -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-5 shadow-sm mb-6">
+<div class="flex items-center justify-between mb-3 font-caption text-caption text-text-secondary">
+<span class="font-body-strong text-text-primary">Step 3 of 5: Socio-Economic Declarations</span>
+<span>60% Completed</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-muted overflow-hidden flex">
+<div class="h-full bg-primary w-[60%] transition-all duration-500"></div>
+</div>
+<div class="flex items-center justify-between mt-3 text-caption font-caption text-text-secondary">
+<span class="text-source-official flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">check_circle</span> Personal Bio</span>
+<span class="text-source-official flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">check_circle</span> Academic Records</span>
+<span class="text-primary font-body-strong flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">radio_button_checked</span> Financial Baseline</span>
+<span>Upload Credentials</span>
+<span>Declaration</span>
+</div>
+</div>
+<!-- Host Form Card -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+<div class="pb-4 mb-6">
+<h2 class="font-title-2 text-title-2 text-text-primary">Section C: Household Financial Disclosures</h2>
+<p class="font-body-default text-body-default text-text-secondary mt-1">Please provide accurate income declarations as per the Revenue Authority records. All entries are subject to cross-verification via the state DigiLocker repository.</p>
+</div>
+<div class="flex flex-col gap-6 max-w-2xl">
+<!-- Field 1: Guardian Name -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<label class="font-label-default text-label-default text-text-primary">Father / Legal Guardian Name *</label>
+<div class="flex items-center gap-1.5">
+<span class="px-2.5 py-0.5 rounded-full bg-primary-tint text-tag-required font-caption text-caption">Required</span>
+<button aria-label="Field info" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container text-text-secondary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">info</span>
+</button>
+</div>
+</div>
+<input class="w-full h-12 px-4 rounded-xl bg-surface-container-low text-text-primary font-body-default outline-none cursor-default" readonly="" type="text" value="Rajeshwar Sharma"/>
+<span class="font-caption text-caption text-text-secondary">Matches Aadhaar demographic ledger ID 4810</span>
+</div>
+<!-- Field 2: Occupation -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<label class="font-label-default text-label-default text-text-primary">Primary Household Occupation *</label>
+<div class="flex items-center gap-1.5">
+<span class="px-2.5 py-0.5 rounded-full bg-primary-tint text-tag-required font-caption text-caption">Required</span>
+<button aria-label="Field info" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container text-text-secondary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">info</span>
+</button>
+</div>
+</div>
+<div class="w-full h-12 px-4 rounded-xl bg-surface-container-low text-text-primary font-body-default flex items-center justify-between cursor-default">
+<span>Smallholder Agriculture / Cultivator</span>
+<span class="material-symbols-outlined text-text-secondary">arrow_drop_down</span>
+</div>
+</div>
+<!-- TARGET FOCUSED FIELD ROW: Annual Family Income (D7 STATE) -->
+<!-- Active field with Marigold wash highlighter and 2px Lagoon outline -->
+<div class="relative rounded-2xl p-5 -mx-4 transition-all duration-300 shadow-sm" id="target-income-row" style="background-color: rgba(242, 169, 59, 0.22); outline: 2px solid #004149; outline-offset: 0px;">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<label class="font-title-2 text-title-2 text-text-primary" for="annual-income-input">Annual family income (₹)*</label>
+<span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" title="FormAssist currently focused here"></span>
+</div>
+<!-- Compact tag cluster (< 280px constraint) -->
+<div class="flex items-center gap-2">
+<span class="h-8 px-3 rounded-full bg-primary-tint text-tag-required font-caption text-caption font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tag-required"></span>
+                  Required
+                </span>
+<button aria-label="Income field clarification assistance" class="w-10 h-10 rounded-full bg-surface-container-lowest text-primary shadow-sm flex items-center justify-center hover:bg-primary-tint transition-transform active:scale-95" title="Inspected by FormAssist" type="button">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">help</span>
+</button>
+</div>
+</div>
+<!-- Focused Input -->
+<div class="relative mt-2">
+<input class="w-full h-12 px-4 rounded-xl bg-surface-container-lowest text-text-primary font-body-strong text-body-lg shadow-inner outline-none transition-shadow" id="annual-income-input" style="box-shadow: 0 0 0 2px #004149 inset;" type="text" value="₹ 1,20,000"/>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-caption font-caption bg-source-page-bg text-source-page">FormAssist Active</span>
+</div>
+</div>
+<div class="flex items-center justify-between mt-3 text-caption font-caption">
+<span class="text-text-secondary">Gross combined income from all family sources before tax deductions.</span>
+<span class="text-tag-unusual font-body-strong bg-tag-unusual-bg px-2 py-0.5 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span> Must not exceed ₹ 2,50,000
+              </span>
+</div>
+<!-- In-situ provenance pointer tag -->
+<div class="mt-3 pt-3 flex items-center gap-2 font-caption text-caption text-text-secondary">
+<span class="material-symbols-outlined text-[16px] text-primary">assistant</span>
+<span>FormAssist is actively contextualized on this question. See conversation on right.</span>
+</div>
+</div>
+<!-- Field 4: Tehsil / Sub-district Certificate No -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<label class="font-label-default text-label-default text-text-primary">Revenue Income Certificate Number *</label>
+<div class="flex items-center gap-1.5">
+<span class="px-2.5 py-0.5 rounded-full bg-primary-tint text-tag-required font-caption text-caption">Required</span>
+<button aria-label="Field info" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container text-text-secondary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">info</span>
+</button>
+</div>
+</div>
+<input class="w-full h-12 px-4 rounded-xl bg-surface-container-low text-text-secondary font-body-default outline-none cursor-default" placeholder="e.g. REV/INC/2024/77489" readonly="" type="text"/>
+<span class="font-caption text-caption text-text-secondary">Issued by Tahsildar / Naib Tahsildar / Sub-Divisional Magistrate</span>
+</div>
+<!-- Form Actions within Host -->
+<div class="flex items-center gap-4 pt-4">
+<button class="h-12 px-6 rounded-xl bg-surface-muted text-text-secondary font-label-default text-label-default hover:bg-surface-container transition-colors" type="button">
+              Save Draft
+            </button>
+<button class="h-12 px-8 rounded-xl bg-secondary text-on-secondary font-label-default text-label-default opacity-60 cursor-not-allowed" type="button">
+              Proceed to Document Upload
+            </button>
+</div>
+</div>
+</div>
+<!-- Regulatory Notice Card -->
+<div class="w-full max-w-2xl mt-6 p-4 rounded-xl bg-surface-container-low flex items-start gap-3">
+<span class="material-symbols-outlined text-text-secondary text-[20px] shrink-0 mt-0.5">policy</span>
+<div class="font-caption text-caption text-text-secondary">
+          Statutory Warning: Furnishing false income credentials is an offense under Section 182 of the Indian Penal Code. Income certificates older than 180 days are invalid for the 2025-26 cycle.
+        </div>
+</div>
+</div>
+<!-- 
+      FORMASSIST CHAT OPEN STATE D7 (K10 COMPLIANT)
+      Right-docked Chat Drawer:
+      - Width: 400px fixed
+      - Height: Full available viewport height (fixed docking to right edge)
+      - Background: White (surface-container-lowest)
+      - Rounded left corners (20px)
+      - Soft teal shadow: elev.panel (-8px 0 32px rgba(14, 90, 100, 0.20), -1px 0 0 #CBD5DB)
+    -->
+<aside aria-label="FormAssist Interactive Assistant Panel" class="fixed top-14 right-0 bottom-0 w-[400px] bg-surface-container-lowest rounded-l-[20px] flex flex-col z-40 transition-transform duration-300 select-text" id="formassist-chat-drawer" style="box-shadow: -8px 0 32px rgba(14, 90, 100, 0.20), -1px 0 0 #CBD5DB;">
+<!-- HEADER (72px Height) -->
+<header class="h-[72px] px-5 flex items-center justify-between shrink-0 bg-surface-container-lowest rounded-tl-[20px] shadow-sm z-10">
+<!-- Brand & Title -->
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded-lg bg-primary flex items-center justify-center shrink-0">
+<!-- FormAssist Mark 28px -->
+<span class="material-symbols-outlined text-text-on-primary text-[18px]">family_restroom</span>
+</div>
+<div>
+<h2 class="font-title-2 text-title-2 text-text-primary tracking-tight leading-none">Ask FormAssist</h2>
+<span class="font-caption text-caption text-text-secondary">Marginal Companion</span>
+</div>
+</div>
+<!-- Controls: Language Chip & 40x40 Close Button -->
+<div class="flex items-center gap-2">
+<!-- Language chip -->
+<div class="relative">
+<button class="h-8 px-3 rounded-full bg-surface-muted hover:bg-surface-container text-text-primary font-caption text-caption font-semibold flex items-center gap-1 transition-colors" id="lang-select-btn" title="Change UI and assistance language" type="button">
+<span>English</span>
+<span class="material-symbols-outlined text-[16px]">arrow_drop_down</span>
+</button>
+<div class="hidden absolute right-0 mt-1 w-32 bg-surface-container-lowest rounded-xl shadow-lg p-1.5 z-50" id="lang-dropdown">
+<button class="w-full text-left px-3 py-1.5 rounded-lg text-caption font-caption hover:bg-primary-tint text-primary font-semibold">English</button>
+<button class="w-full text-left px-3 py-1.5 rounded-lg text-caption font-caption hover:bg-surface-container text-text-primary">हिन्दी (Hindi)</button>
+<button class="w-full text-left px-3 py-1.5 rounded-lg text-caption font-caption hover:bg-surface-container text-text-primary">मराठी (Marathi)</button>
+<button class="w-full text-left px-3 py-1.5 rounded-lg text-caption font-caption hover:bg-surface-container text-text-primary">বাংলা (Bengali)</button>
+</div>
+</div>
+<!-- 40x40 Close (✕) Button -->
+<button aria-label="Close FormAssist Chat Drawer" class="w-10 h-10 rounded-full flex items-center justify-center text-text-secondary hover:bg-surface-container hover:text-text-primary transition-colors focus:outline-none" id="chat-close-btn" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+</header>
+<!-- PERSISTENT CONTEXT BAR (K10 Requirement) -->
+<!-- Rounded 12px, fill #E3F0F1 (primary-tint), Lagoon ads_click icon, caption "Asking about" and bold "Annual family income" in Lagoon #0E5A64 -->
+<div class="px-5 pt-3 pb-2 shrink-0">
+<div class="w-full bg-primary-tint rounded-xl p-3 flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest/80 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tag-required text-[20px]">ads_click</span>
+</div>
+<div class="flex-1 min-w-0">
+<span class="block font-caption text-caption text-text-secondary uppercase tracking-wider text-[11px] leading-tight">Asking about</span>
+<div class="font-body-strong text-body-strong text-tag-required truncate">Annual family income (₹)</div>
+</div>
+<button aria-label="Highlight field in form" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-container-lowest/60 text-tag-required transition-colors" id="rehighlight-anchor-btn" title="Focus field on host form" type="button">
+<span class="material-symbols-outlined text-[18px]">center_focus_strong</span>
+</button>
+</div>
+</div>
+<!-- MESSAGES SCROLL LIST -->
+<div class="flex-1 overflow-y-auto px-5 py-3 space-y-5">
+<!-- Timestamp separator -->
+<div class="flex items-center justify-center gap-2">
+<span class="h-px bg-surface-container-high flex-1"></span>
+<span class="font-caption text-caption text-text-disabled">Today • Verified Guidance</span>
+<span class="h-px bg-surface-container-high flex-1"></span>
+</div>
+<!-- System Welcome Callout -->
+<div class="p-3 rounded-xl bg-surface-container-low text-text-secondary font-caption text-caption flex items-start gap-2.5">
+<span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">forum</span>
+<div>
+<span>I'm FormAssist. Ask me anything about how this scholarship portal validates income, what documents count, or how to avoid disqualification.</span>
+</div>
+</div>
+<!-- USER MESSAGE BUBBLE (Right) -->
+<!-- Lagoon #0E5A64 fill, white text, radius 16 with small bottom-right corner -->
+<div class="flex justify-end">
+<div class="max-w-[85%] rounded-[16px] rounded-br-[4px] bg-[#0E5A64] text-text-on-primary px-4 py-3 shadow-sm">
+<p class="font-body-default text-body-default leading-relaxed text-text-on-primary">
+              What if I don't know the exact number?
+            </p>
+<div class="text-right mt-1">
+<span class="font-caption text-caption text-text-on-primary/70 text-[11px]">11:42 AM</span>
+</div>
+</div>
+</div>
+<!-- ASSISTANT MESSAGE BUBBLE (Left) -->
+<!-- White, 1px border #DDE4E8, radius 16 with small top-left corner -->
+<div class="flex flex-col items-start gap-2 max-w-[92%]">
+<div class="w-full rounded-[16px] rounded-tl-[4px] bg-surface-card px-4 py-3.5 shadow-sm" style="border: 1px solid #DDE4E8;">
+<p class="font-body-default text-body-default text-text-primary leading-relaxed">
+              That's okay. Use the total written on your income certificate. If you don't have the certificate yet, ask at your Tehsil office.
+            </p>
+<!-- Contextual Quick Action / Detail Tip inside bubble -->
+<div class="mt-3 pt-3 bg-surface-page rounded-lg p-2.5 flex items-start gap-2">
+<span class="material-symbols-outlined text-source-official text-[16px] shrink-0 mt-0.5">task_alt</span>
+<div class="font-caption text-caption text-text-secondary">
+<span class="font-body-strong text-text-primary">Important check:</span> Must match within ±5% of the annual figure stamped on your Revenue Form 16-B.
+              </div>
+</div>
+</div>
+<!-- BELOW ASSISTANT BUBBLE: Violet sparkle icon + "AI answer" caption and 40x40 speaker icon button -->
+<div class="flex items-center justify-between w-full px-1">
+<!-- Sparkle + "AI answer" provenance tag -->
+<div class="flex items-center gap-1.5 text-source-ai">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">arrow_back_ios_new</span>
+<span class="font-caption text-caption font-semibold tracking-wide">AI answer</span>
+<span class="font-caption text-caption text-text-disabled">• Synthesized</span>
+</div>
+<!-- 40x40 Speaker Icon Button [🔊] -->
+<button aria-label="Listen to answer aloud" class="w-10 h-10 rounded-full flex items-center justify-center text-text-secondary hover:bg-surface-container hover:text-text-primary active:bg-primary-tint transition-colors" id="speech-synth-btn" title="Listen aloud (Text-to-Speech)" type="button">
+<span class="material-symbols-outlined text-[20px]">volume_up</span>
+</button>
+</div>
+</div>
+<!-- Follow-up Prompt Suggestions (Calm & Helpful) -->
+<div class="pt-2 flex flex-col gap-2">
+<span class="font-caption text-caption text-text-secondary uppercase tracking-wider text-[11px]">Helpful Follow-ups</span>
+<div class="flex flex-wrap gap-2">
+<button class="text-left px-3 py-1.5 rounded-lg bg-surface-muted hover:bg-primary-tint text-text-primary hover:text-primary font-caption text-caption transition-colors" type="button">
+              Does agricultural income need tax returns?
+            </button>
+<button class="text-left px-3 py-1.5 rounded-lg bg-surface-muted hover:bg-primary-tint text-text-primary hover:text-primary font-caption text-caption transition-colors" type="button">
+              How long does Tehsil verification take?
+            </button>
+</div>
+</div>
+</div>
+<!-- PINNED COMPOSER AT BOTTOM (K10 Requirement) -->
+<footer class="p-4 shrink-0 bg-surface-container-lowest rounded-bl-[20px] shadow-sm z-10">
+<!-- Multi-line input (min 48px, radius 12, border #6B7B85) + 48x48 Lagoon Send Button -->
+<div class="flex items-end gap-2">
+<div class="flex-1 relative">
+<textarea class="w-full min-h-[48px] max-h-32 py-3 px-3.5 rounded-xl text-text-primary font-body-default placeholder:text-text-secondary bg-surface-container-lowest resize-none outline-none focus:shadow-md transition-shadow" id="composer-input" placeholder="Ask about this question…" rows="1" style="border: 1.5px solid #6B7B85;"></textarea>
+</div>
+<!-- 48x48 Lagoon Send Button (Send icon) -->
+<button aria-label="Send message to FormAssist" class="w-12 h-12 rounded-xl bg-primary text-text-on-primary flex items-center justify-center hover:bg-primary-pressed transition-colors shadow-sm shrink-0 active:scale-95" id="composer-send-btn" title="Send inquiry" type="button">
+<span class="material-symbols-outlined text-[22px]">send</span>
+</button>
+</div>
+<!-- Security Warning Caption below Composer -->
+<!-- Lock icon + "Don't type passwords, OTPs or card numbers here. Messages in this chat are sent to FormAssist." -->
+<div class="flex items-start gap-1.5 mt-2.5 px-0.5">
+<span class="material-symbols-outlined text-text-secondary text-[15px] shrink-0 mt-0.5">lock</span>
+<p class="font-caption text-caption text-text-secondary text-[12px] leading-tight">
+            Don't type passwords, OTPs or card numbers here. Messages in this chat are sent to FormAssist.
+          </p>
+</div>
+</footer>
+</aside>
+</div>
+</div>
+<script>
+  // Interactive micro-behaviors for FormAssist D7 Chat Drawer
+  (function() {
+    const drawer = document.getElementById('formassist-chat-drawer');
+    const closeBtn = document.getElementById('chat-close-btn');
+    const targetRow = document.getElementById('target-income-row');
+    const rehighlightBtn = document.getElementById('rehighlight-anchor-btn');
+    const langBtn = document.getElementById('lang-select-btn');
+    const langDropdown = document.getElementById('lang-dropdown');
+    const speechBtn = document.getElementById('speech-synth-btn');
+    const composer = document.getElementById('composer-input');
+    const sendBtn = document.getElementById('composer-send-btn');
+
+    // Language dropdown toggle
+    if (langBtn && langDropdown) {
+      langBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        langDropdown.classList.toggle('hidden');
+      });
+      document.addEventListener('click', () => {
+        langDropdown.classList.add('hidden');
+      });
+    }
+
+    // Speech synthesis toggle indicator
+    let isSpeaking = false;
+    if (speechBtn) {
+      speechBtn.addEventListener('click', () => {
+        isSpeaking = !isSpeaking;
+        if (isSpeaking) {
+          speechBtn.classList.add('bg-primary-tint', 'text-primary');
+          speechBtn.querySelector('.material-symbols-outlined').textContent = 'graphic_eq';
+        } else {
+          speechBtn.classList.remove('bg-primary-tint', 'text-primary');
+          speechBtn.querySelector('.material-symbols-outlined').textContent = 'volume_up';
+        }
+      });
+    }
+
+    // Scroll to & re-pulse target row
+    if (rehighlightBtn && targetRow) {
+      rehighlightBtn.addEventListener('click', () => {
+        targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        targetRow.style.transform = 'scale(1.01)';
+        setTimeout(() => {
+          targetRow.style.transform = 'scale(1)';
+        }, 300);
+      });
+    }
+
+    // Close button micro-interaction
+    if (closeBtn && drawer) {
+      closeBtn.addEventListener('click', () => {
+        drawer.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+          alert('Chat panel dismissed. (In full extension, FormAssist floating dock button reappears on host page edge).');
+          drawer.style.transform = 'translateX(0)';
+        }, 1200);
+      });
+    }
+
+    // Auto-grow composer height
+    if (composer) {
+      composer.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+      });
+    }
+  })();
+</script></main><footer class="w-full bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] py-space-lg"><div class="w-full px-gutter flex flex-col md:flex-row items-center justify-between gap-space-md text-text-secondary font-caption text-caption"><div>FormAssist Browser Runtime • Devanagari &amp; Latin Provenance Engine • Non-Intrusive Isolation Frame</div><div class="flex items-center gap-space-lg"><span>Latency: 28ms</span><span>AI Provenance: Active</span><span>WCAG AAA Compliant</span></div></div></footer></body></html>

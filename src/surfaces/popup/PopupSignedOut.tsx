@@ -4,92 +4,86 @@
  */
 
 import React from 'react';
+import { t } from '../../core/i18n';
 import { Button } from '../../ui/Button';
 import { Icon } from '../../ui/Icon';
+import { SegmentedControl } from '../../ui/SegmentedControl';
 
 interface PopupSignedOutProps {
   onSignIn: () => void;
   onCreateAccount: () => void;
-  activeDomain?: string;
+  onActivate: () => void;
 }
 
 export const PopupSignedOut: React.FC<PopupSignedOutProps> = ({
   onSignIn,
   onCreateAccount,
-  activeDomain = 'scholarships.gov.in',
+  onActivate,
 }) => {
   return (
     <div
-      className="w-[360px] bg-surface-page text-text-primary rounded-2xl border border-border-subtle shadow-xl overflow-hidden font-body"
+      className="w-[360px] bg-surface-page text-text-primary rounded-2xl border border-border-subtle shadow-floating overflow-hidden font-body"
       style={{ width: '360px' }}
     >
-      {/* Brand Header */}
-      <div className="bg-primary-container text-white p-4">
-        <div className="flex items-center justify-between mb-1">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center font-display font-bold text-sm">
-              FA
-            </div>
-            <h1 className="font-display font-bold text-lg leading-tight">FormAssist</h1>
-          </div>
-          <span className="text-[11px] bg-white/20 px-2 py-0.5 rounded-full font-semibold">
-            v1.0
+      <header className="flex min-h-16 items-center justify-between border-b border-border-subtle bg-surface-card px-5">
+        <div className="flex items-center gap-2.5">
+          <span className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-primary-container font-display text-xl font-bold text-white">
+            F<span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-marigold" />
           </span>
+          <h1 className="font-display text-xl font-bold leading-tight text-primary">FormAssist</h1>
         </div>
-        <p className="text-xs text-primary-tint/90">
-          Patient assistance for official web paperwork
-        </p>
-      </div>
+        <button
+          type="button"
+          onClick={onSignIn}
+          className="min-h-11 rounded-lg px-3 text-sm font-semibold text-primary hover:bg-primary-tint focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primary-container"
+        >
+          {t('popup_sign_in')}
+        </button>
+      </header>
 
-      <div className="p-4 space-y-4">
-        {/* Domain note */}
-        <div className="bg-surface-card rounded-xl p-3 border border-border-subtle text-xs">
-          <span className="text-text-secondary">Active website: </span>
-          <span className="font-semibold text-text-primary">{activeDomain}</span>
-        </div>
+      <main className="space-y-5 px-5 py-6">
+        <section className="space-y-2">
+          <h2 className="font-display text-[28px] font-bold leading-9 text-text-primary">
+            {t('popup_understand_form')}
+          </h2>
+          <p className="text-base leading-6 text-text-secondary">{t('popup_intro')}</p>
+        </section>
 
-        {/* Locked Languages per p1 */}
-        <div className="bg-surface-card rounded-xl p-3 border border-border-subtle space-y-2">
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-text-secondary uppercase tracking-wider">
-            <Icon name="language" className="w-3.5 h-3.5" />
-            <span>Assistance Languages</span>
-          </div>
+        <Button variant="primary" size="lg" fullWidth onClick={onActivate}>
+          <span className="flex items-center gap-2">
+            <Icon name="visibility" className="h-5 w-5" />
+            {t('activate')}
+          </span>
+        </Button>
 
-          <div className="grid grid-cols-3 gap-1.5 text-xs">
-            <div className="py-2 px-1 rounded-lg border border-primary-container bg-primary-tint text-primary-container font-bold text-center">
-              English
-            </div>
-            <div className="py-2 px-1 rounded-lg border border-border-subtle bg-surface-page text-text-disabled flex items-center justify-center gap-1">
-              <Icon name="lock" className="w-3 h-3 text-text-disabled" />
-              <span>हिन्दी</span>
-            </div>
-            <div className="py-2 px-1 rounded-lg border border-border-subtle bg-surface-page text-text-disabled flex items-center justify-center gap-1">
-              <Icon name="lock" className="w-3 h-3 text-text-disabled" />
-              <span>मराठी</span>
-            </div>
-          </div>
+        <section className="space-y-2">
+          <h3 className="text-sm font-semibold text-text-secondary">{t('popup_language')}</h3>
+          <SegmentedControl
+            size="sm"
+            value="en"
+            onChange={() => undefined}
+            options={[
+              { id: 'en', label: 'English' },
+              { id: 'hi', label: 'हिन्दी', locked: true },
+              { id: 'mr', label: 'मराठी', locked: true },
+            ]}
+          />
+          <p className="text-sm leading-5 text-text-secondary">{t('popup_locked_lang')}</p>
+        </section>
 
-          <p className="text-[11px] text-text-secondary leading-snug">
-            Sign in to use हिन्दी and मराठी explanations and save your chat questions.
-          </p>
-        </div>
-
-        {/* CTA Buttons */}
-        <div className="space-y-2 pt-1">
-          <Button variant="primary" size="lg" fullWidth onClick={onCreateAccount}>
-            Create account
+        <section className="space-y-2 rounded-xl border border-border-subtle bg-surface-card p-4">
+          <h3 className="text-sm font-semibold text-text-primary">{t('popup_without_account')}</h3>
+          <p className="text-sm leading-5 text-text-secondary">{t('popup_guest_note')}</p>
+          <Button variant="secondary" size="md" fullWidth onClick={onCreateAccount}>
+            {t('onboarding_create_account')}
           </Button>
-          <Button variant="secondary" size="md" fullWidth onClick={onSignIn}>
-            Sign in
-          </Button>
-        </div>
-      </div>
+        </section>
+      </main>
 
-      {/* Privacy Guarantee Stamp */}
-      <div className="bg-source-official-bg text-source-official px-4 py-2.5 border-t border-source-official/20 flex items-center gap-1.5 text-[11px] font-semibold">
-        <Icon name="verified" className="w-3.5 h-3.5 shrink-0" />
-        <span>Only questions are read — never your answers.</span>
-      </div>
+      <footer className="flex min-h-12 items-center gap-2 border-t border-border-subtle bg-surface-card px-5 text-sm font-medium text-text-secondary">
+        <Icon name="lock" className="h-4 w-4 shrink-0" />
+        <span>{t('popup_answers_stay_local')}</span>
+      </footer>
     </div>
   );
 };

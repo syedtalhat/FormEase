@@ -21,8 +21,12 @@ import { getSupabaseConfig } from '../../src/core/storage';
 // 1. On initial extension installation, open onboarding.html in a new tab
 chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
-    chrome.tabs.create({
-      url: chrome.runtime.getURL('onboarding.html'),
+    chrome.storage.local.get('formassist_onboarding_completed', (result) => {
+      if (!result.formassist_onboarding_completed) {
+        chrome.tabs.create({
+          url: chrome.runtime.getURL('onboarding.html'),
+        });
+      }
     });
   }
 

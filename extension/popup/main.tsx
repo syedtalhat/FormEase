@@ -19,8 +19,9 @@ import '../../src/index.css';
 
 const PopupApp: React.FC = () => {
   const [isSignedIn, setIsSignedIn] = useState(true);
+  const [profileEmail, setProfileEmail] = useState<string | undefined>();
   const [sessionState, setSessionState] = useState<SessionState>(INITIAL_SESSION_STATE);
-  const [activeDomain, setActiveDomain] = useState('scholarships.gov.in');
+  const [activeDomain, setActiveDomain] = useState('');
   const [activeTabId, setActiveTabId] = useState<number | null>(null);
 
   // Sync active tab domain & session state
@@ -35,6 +36,7 @@ const PopupApp: React.FC = () => {
     // 1. Load saved auth & language
     getAuthSession().then((session) => {
       setIsSignedIn(session.isSignedIn);
+      setProfileEmail(session.user?.email);
     });
     getSavedLanguage().then((lang) => {
       setSessionState((prev) => ({
@@ -146,9 +148,10 @@ const PopupApp: React.FC = () => {
   };
 
   return (
-    <div className="w-[380px] p-4 bg-surface-app">
+    <div className="w-[360px]">
       <PopupRoot
         isSignedIn={isSignedIn}
+        profileEmail={profileEmail}
         sessionState={sessionState}
         activeDomain={activeDomain}
         onActivate={handleActivate}

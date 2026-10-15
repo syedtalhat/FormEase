@@ -4,13 +4,14 @@
  */
 
 import React from 'react';
-import { render, screen, fireEvent, cleanup } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi, afterEach } from 'vitest';
 import { SourceChip } from '../src/ui/SourceChip';
 import { Tooltip, TooltipExplanationData } from '../src/surfaces/overlay/Tooltip';
 import { ErrorCard } from '../src/surfaces/overlay/ErrorCard';
 import { PopupError } from '../src/surfaces/popup/PopupError';
 import { SegmentedControl } from '../src/ui/SegmentedControl';
+import { ChatPanel, ChatMessageItem } from '../src/surfaces/overlay/ChatPanel';
 
 describe('Design System & Surface Component Tests (§13)', () => {
   afterEach(() => {
@@ -149,5 +150,55 @@ describe('Design System & Surface Component Tests (§13)', () => {
     );
 
     expect(screen.getByRole('radio', { name: 'हिन्दी' }).getAttribute('aria-checked')).toBe('true');
+  });
+
+  it('updates live field context and renders provenance with an assistant reply', () => {
+    const message: ChatMessageItem = {
+      id: 'reply-1',
+      role: 'assistant',
+      content: 'A short explanation.',
+      timestamp: Date.now(),
+      source_label: 'official',
+    };
+    const props = {
+      language: 'en' as const,
+      messages: [message],
+      onSendMessage: vi.fn(),
+      onClose: vi.fn(),
+    };
+    const { rerender } = render(<ChatPanel {...props} focusedFieldLabel="Full name" />);
+
+    expect(screen.getByText('Full name')).toBeDefined();
+    expect(screen.getByText('A short explanation.')).toBeDefined();
+    expect(screen.getByText('From official source')).toBeDefined();
+
+    rerender(<ChatPanel {...props} focusedFieldLabel="Date of birth" />);
+    expect(screen.getByText('Date of birth')).toBeDefined();
+  });
+
+  it('blocks sensitive-number chat input and restores focus after Escape', async () => {
+    const origin = document.createElement('button');
+    document.body.appendChild(origin);
+    origin.focus();
+    const onClose = vi.fn();
+    const onSendMessage = vi.fn();
+    render(
+      <ChatPanel
+        language="en"
+        messages={[]}
+        onSendMessage={onSendMessage}
+        onClose={onClose}
+      />
+    );
+
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: '123456' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Send message' }));
+    expect(onSendMessage).not.toHaveBeenCalled();
+    expect(screen.getByRole('alert').textContent).toContain('passwords');
+
+    fireEvent.keyDown(window, { key: 'Escape' });
+    expect(onClose).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(document.activeElement).toBe(origin));
+    origin.remove();
   });
 });

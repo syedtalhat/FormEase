@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { SupportedLanguage } from '../../core/i18n';
+import { SupportedLanguage, t } from '../../core/i18n';
 import { SessionState } from '../../core/session/types';
 import { PopupError } from './PopupError';
 import { PopupIdle } from './PopupIdle';
@@ -14,6 +14,7 @@ import { PopupWorking } from './PopupWorking';
 
 interface PopupRootProps {
   isSignedIn: boolean;
+  profileEmail?: string;
   sessionState: SessionState;
   activeDomain?: string;
   loadingLanguage?: SupportedLanguage | null;
@@ -30,8 +31,9 @@ interface PopupRootProps {
 
 export const PopupRoot: React.FC<PopupRootProps> = ({
   isSignedIn,
+  profileEmail,
   sessionState,
-  activeDomain = 'scholarships.gov.in',
+  activeDomain,
   loadingLanguage,
   onActivate,
   onDeactivate,
@@ -49,9 +51,9 @@ export const PopupRoot: React.FC<PopupRootProps> = ({
   if (!isSignedIn) {
     return (
       <PopupSignedOut
-        activeDomain={activeDomain}
         onSignIn={onOpenOnboarding}
         onCreateAccount={onOpenOnboarding}
+        onActivate={onActivate}
       />
     );
   }
@@ -71,7 +73,8 @@ export const PopupRoot: React.FC<PopupRootProps> = ({
   if (current === 'idle' || current === 'deactivated') {
     return (
       <PopupIdle
-        hostname={activeDomain}
+        hostname={activeDomain || ''}
+        profileEmail={profileEmail}
         language={context.language}
         onLanguageChange={onLanguageChange}
         onActivate={onActivate}
@@ -86,6 +89,7 @@ export const PopupRoot: React.FC<PopupRootProps> = ({
       <PopupWorking
         currentStep={current === 'scanning' ? 1 : 2}
         fieldsCount={context.fields.length}
+        language={context.language}
         onDeactivate={onDeactivate}
       />
     );
@@ -106,18 +110,22 @@ export const PopupRoot: React.FC<PopupRootProps> = ({
       highestRiskDescription={
         highestRisk
           ? highestRisk.description_key === 'risk_cross_domain'
-            ? 'Answers will be sent to a different website.'
+            ? t('risk_cross_domain_generic', context.language)
             : highestRisk.description_key === 'risk_otp_non_bank'
-            ? 'Requesting an OTP on an unverified site is unusual.'
-            : 'Unsecured connection detected.'
+            ? t('risk_otp_non_bank', context.language)
+            : highestRisk.description_key === 'risk_national_id'
+            ? t('risk_national_id', context.language)
+            : t('risk_insecure_http', context.language)
           : undefined
       }
+      profileEmail={profileEmail}
       language={context.language}
       loadingLanguage={loadingLanguage}
       onLanguageChange={onLanguageChange}
       onOpenChat={onOpenChat}
       onShowWarning={onShowWarning}
       onDeactivate={onDeactivate}
+      onOpenSettings={onOpenSettings}
     />
   );
 };

@@ -46,25 +46,34 @@ export function mountOverlay(
   options: MountOverlayOptions = {}
 ): OverlayHandle {
   const hostId = 'formassist-host';
-
-  // 1. Remove any previous instance completely
   const existing = targetDoc.getElementById(hostId);
   if (existing) {
     existing.remove();
   }
 
-  // 2. Inject font-face rules into host document <head> (idempotent, Section 4)
-  const fontStyleId = 'formassist-fonts';
-  if (!targetDoc.getElementById(fontStyleId)) {
-    const fontStyle = targetDoc.createElement('style');
-    fontStyle.id = fontStyleId;
-    fontStyle.textContent = `
-      @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;500;600&display=swap');
-    `;
-    targetDoc.head?.appendChild(fontStyle);
-  }
+  const fontUrl = (packageName: string, filename: string) => {
+    if (typeof chrome !== 'undefined' && chrome.runtime?.getURL) {
+      return chrome.runtime.getURL(`fonts/${filename}`);
+    }
+    return `/node_modules/@fontsource/${packageName}/files/${filename}`;
+  };
+  const fontFaces = [
+    ['Baloo 2', 600, 'baloo-2', 'baloo-2-latin-600-normal.woff2', 'U+0000-024F,U+1E00-1EFF,U+20A0-20CF'],
+    ['Baloo 2', 600, 'baloo-2', 'baloo-2-devanagari-600-normal.woff2', 'U+0900-097F,U+1CD0-1CFF,U+200C-200D,U+20B9,U+25CC'],
+    ['Baloo 2', 800, 'baloo-2', 'baloo-2-latin-800-normal.woff2', 'U+0000-024F,U+1E00-1EFF,U+20A0-20CF'],
+    ['Baloo 2', 800, 'baloo-2', 'baloo-2-devanagari-800-normal.woff2', 'U+0900-097F,U+1CD0-1CFF,U+200C-200D,U+20B9,U+25CC'],
+    ['Mukta', 400, 'mukta', 'mukta-latin-400-normal.woff2', 'U+0000-024F,U+1E00-1EFF,U+20A0-20CF'],
+    ['Mukta', 400, 'mukta', 'mukta-devanagari-400-normal.woff2', 'U+0900-097F,U+1CD0-1CFF,U+200C-200D,U+20B9,U+25CC'],
+    ['Mukta', 500, 'mukta', 'mukta-latin-500-normal.woff2', 'U+0000-024F,U+1E00-1EFF,U+20A0-20CF'],
+    ['Mukta', 500, 'mukta', 'mukta-devanagari-500-normal.woff2', 'U+0900-097F,U+1CD0-1CFF,U+200C-200D,U+20B9,U+25CC'],
+    ['Mukta', 600, 'mukta', 'mukta-latin-600-normal.woff2', 'U+0000-024F,U+1E00-1EFF,U+20A0-20CF'],
+    ['Mukta', 600, 'mukta', 'mukta-devanagari-600-normal.woff2', 'U+0900-097F,U+1CD0-1CFF,U+200C-200D,U+20B9,U+25CC'],
+  ]
+    .map(([family, weight, packageName, filename, range]) =>
+      `@font-face{font-family:'${family}';font-style:normal;font-weight:${weight};font-display:swap;src:url('${fontUrl(String(packageName), String(filename))}') format('woff2');unicode-range:${range};}`
+    )
+    .join('\n');
 
-  // 3. Create host element attached to documentElement or body with max z-index and isolated transform
   const hostElement = targetDoc.createElement('div');
   hostElement.id = hostId;
   hostElement.style.cssText =
@@ -73,15 +82,13 @@ export function mountOverlay(
   const mountParent = targetDoc.documentElement || targetDoc.body;
   mountParent.appendChild(hostElement);
 
-  // 4. Attach Shadow DOM
   const shadowRoot = hostElement.attachShadow({ mode: 'open' });
 
-  // 5. Inject overlay styles inside shadow root
   const shadowStyle = targetDoc.createElement('style');
   const baseShadowCss = `
     :host { all: initial; }
     * { box-sizing: border-box; }
-    @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;500;600&display=swap');
+    ${fontFaces}
     .font-body { font-family: 'Mukta', system-ui, sans-serif; }
     .font-display { font-family: 'Baloo 2', system-ui, sans-serif; }
   `;
@@ -90,7 +97,6 @@ export function mountOverlay(
     : baseShadowCss;
   shadowRoot.appendChild(shadowStyle);
 
-  // 6. Create React container inside shadow root
   const reactContainer = targetDoc.createElement('div');
   reactContainer.id = 'formassist-shadow-container';
   shadowRoot.appendChild(reactContainer);

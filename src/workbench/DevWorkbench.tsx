@@ -4,12 +4,13 @@
  */
 
 import React, { useState } from 'react';
-import { SupportedLanguage } from '../core/i18n';
+import { getApiClient } from '../core/api';
+import { SupportedLanguage, t } from '../core/i18n';
 import { INITIAL_SESSION_STATE } from '../core/session/reducer';
 import { SessionState } from '../core/session/types';
 import { OnboardingRoot } from '../surfaces/onboarding/OnboardingRoot';
 import { SettingsPage } from '../surfaces/options/SettingsPage';
-import { ChatPanel } from '../surfaces/overlay/ChatPanel';
+import { ChatMessageItem, ChatPanel } from '../surfaces/overlay/ChatPanel';
 import { ErrorCard } from '../surfaces/overlay/ErrorCard';
 import { FieldTag } from '../surfaces/overlay/FieldTag';
 import { ProgressCard } from '../surfaces/overlay/ProgressCard';
@@ -58,6 +59,34 @@ export const DevWorkbench: React.FC = () => {
   const [fixtureFile, setFixtureFile] = useState<
     'scholarship.html' | 'risky.html' | 'bank-kyc.html'
   >('scholarship.html');
+  const [standaloneChatMessages, setStandaloneChatMessages] = useState<ChatMessageItem[]>([]);
+  const [standaloneChatLoading, setStandaloneChatLoading] = useState(false);
+
+  const sendStandaloneChatMessage = async (message: string) => {
+    setStandaloneChatLoading(true);
+    setStandaloneChatMessages((previous) => [
+      ...previous,
+      { id: `user-${Date.now()}`, role: 'user', content: message, timestamp: Date.now() },
+    ]);
+    try {
+      const response = await getApiClient(apiMode).chat({
+        message,
+        completed_field_keys: [],
+        language,
+      });
+      setStandaloneChatMessages((previous) => [
+        ...previous,
+        {
+          id: `assistant-${Date.now()}`,
+          role: 'assistant',
+          content: response.reply,
+          timestamp: Date.now(),
+        },
+      ]);
+    } finally {
+      setStandaloneChatLoading(false);
+    }
+  };
 
   // Sample data for standalone surface previews
   const sampleTooltipData: TooltipExplanationData = {
@@ -429,9 +458,9 @@ export const DevWorkbench: React.FC = () => {
           {selectedView === 'p1' && (
             <div className="flex flex-col items-center justify-center p-8 bg-surface-muted rounded-2xl border border-border-subtle">
               <PopupSignedOut
-                activeDomain="scholarships.gov.in"
                 onSignIn={() => setSelectedView('onboarding')}
                 onCreateAccount={() => setSelectedView('onboarding')}
+                onActivate={() => setSelectedView('p3')}
               />
             </div>
           )}
@@ -440,7 +469,7 @@ export const DevWorkbench: React.FC = () => {
           {selectedView === 'p2' && (
             <div className="flex flex-col items-center justify-center p-8 bg-surface-muted rounded-2xl border border-border-subtle">
               <PopupIdle
-                hostname="scholarships.example.gov.in"
+                hostname={window.location.hostname}
                 language={language}
                 onLanguageChange={setLanguage}
                 onActivate={() => setSelectedView('p3')}
@@ -454,7 +483,8 @@ export const DevWorkbench: React.FC = () => {
             <div className="flex flex-col items-center justify-center p-8 bg-surface-muted rounded-2xl border border-border-subtle">
               <PopupWorking
                 currentStep={2}
-                fieldsCount={8}
+                fieldsCount={0}
+                language={language}
                 onDeactivate={() => setSelectedView('p2')}
               />
             </div>
@@ -464,14 +494,15 @@ export const DevWorkbench: React.FC = () => {
           {selectedView === 'p4' && (
             <div className="flex flex-col items-center justify-center p-8 bg-surface-muted rounded-2xl border border-border-subtle">
               <PopupReady
-                fieldsCount={8}
-                officialSourceCount={5}
-                riskCount={1}
-                highestRiskDescription="Format asks for lakhs, not monthly total."
+                fieldsCount={0}
+                officialSourceCount={0}
+                riskCount={fixtureFile === 'risky.html' ? 1 : 0}
+                highestRiskDescription={fixtureFile === 'risky.html' ? t('risk_insecure_http', language) : undefined}
                 language={language}
                 onLanguageChange={setLanguage}
                 onOpenChat={() => setSelectedView('overlay_chat')}
                 onDeactivate={() => setSelectedView('p2')}
+                onOpenSettings={() => setSelectedView('settings')}
               />
             </div>
           )}
@@ -603,31 +634,13 @@ export const DevWorkbench: React.FC = () => {
 
           {/* View: Chat Panel */}
           {selectedView === 'overlay_chat' && (
-            <div className="relative h-[620px] bg-surface-muted rounded-2xl border border-border-subtle overflow-hidden">
+            <div className="relative min-h-[620px] bg-surface-muted rounded-2xl border border-border-subtle overflow-hidden">
               <ChatPanel
-                formTitle="Post-Matric Scholarship Portal"
-                focusedFieldLabel="Annual Family Income"
                 language={language}
-                messages={[
-                  {
-                    id: '1',
-                    role: 'user',
-                    content: 'What if my father is a farmer and does not have a salary slip?',
-                    timestamp: Date.now() - 60000,
-                  },
-                  {
-                    id: '2',
-                    role: 'assistant',
-                    content:
-                      language === 'hi'
-                        ? 'चिंता न करें। किसान आवेदक अपने स्थानीय तहसीलदार द्वारा जारी राजस्व आय प्रमाण पत्र या ग्राम प्रधान का आय घोषणा पत्र संलग्न कर सकते हैं।'
-                        : language === 'mr'
-                        ? 'काळजी करू नका. शेतकरी अर्जदारांनी स्थानिक तहसीलदारांचे उत्पन्न प्रमाणपत्र किंवा ग्रामपंचायतीचा दाखला सादर करावा.'
-                        : "Don't worry! For agricultural families, submit an income certificate issued by your local Tahsildar or Sub-Divisional Magistrate. A salary slip is not mandatory.",
-                    timestamp: Date.now() - 30000,
-                  },
-                ]}
-                onSendMessage={() => {}}
+                messages={standaloneChatMessages}
+                isLoading={standaloneChatLoading}
+                isSignedIn={isSignedIn}
+                onSendMessage={sendStandaloneChatMessage}
                 onClose={() => setSelectedView('simulator')}
                 onLanguageChange={setLanguage}
               />

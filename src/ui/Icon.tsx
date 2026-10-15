@@ -32,7 +32,9 @@ export type IconName =
   | 'visibility_off'
   | 'delete'
   | 'shield'
-  | 'open_in_new';
+  | 'open_in_new'
+  | 'person'
+  | 'radio_button_unchecked';
 
 interface IconProps {
   name: IconName;
@@ -159,6 +161,13 @@ export const Icon: React.FC<IconProps> = ({
             d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
           />
         );
+      case 'radio_button_unchecked':
+        return (
+          <path
+            fill="currentColor"
+            d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"
+          />
+        );
       case 'lock':
         return (
           <path
@@ -234,6 +243,13 @@ export const Icon: React.FC<IconProps> = ({
           <path
             fill="currentColor"
             d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+          />
+        );
+      case 'person':
+        return (
+          <path
+            fill="currentColor"
+            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
           />
         );
       default:
